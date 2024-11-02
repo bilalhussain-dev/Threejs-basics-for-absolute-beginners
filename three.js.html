@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Basics</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ================================
+        // 1) SETUP THE SCENE
+        // ================================
+        const scene = new THREE.Scene(); // Create a new scene
+
+        // ================================
+        // 2) CREATE A CAMERA
+        // ================================
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Set up the camera
+        camera.position.z = 5; // Move the camera back
+
+        // ================================
+        // 3) CREATE A RENDERER
+        // ================================
+        const renderer = new THREE.WebGLRenderer(); // Create a WebGL renderer
+        renderer.setSize(window.innerWidth, window.innerHeight); // Set the size of the renderer
+        document.body.appendChild(renderer.domElement); // Append the renderer to the DOM
+
+        // ================================
+        // 4) ADD A CUBE
+        // ================================
+        const geometry = new THREE.BoxGeometry(); // Create a box geometry
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Create a material with green color
+        const cube = new THREE.Mesh(geometry, material); // Create a mesh with the geometry and material
+        scene.add(cube); // Add the cube to the scene
+
+        // ================================
+        // 5) ADD AN ANIMATION LOOP
+        // ================================
+        function animate() {
+            requestAnimationFrame(animate); // Call animate recursively
+            cube.rotation.x += 0.01; // Rotate the cube on x-axis
+            cube.rotation.y += 0.01; // Rotate the cube on y-axis
+            renderer.render(scene, camera); // Render the scene from the perspective of the camera
+        }
+
+        // ================================
+        // 6) RESIZE HANDLING
+        // ================================
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight; // Update the aspect ratio
+            camera.updateProjectionMatrix(); // Update the camera projection matrix
+            renderer.setSize(window.innerWidth, window.innerHeight); // Update renderer size
+        });
+
+        animate(); // Start the animation loop
+    </script>
+</body>
+</html>
